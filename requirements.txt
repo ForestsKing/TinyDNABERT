@@ -1,0 +1,10 @@
+datasets==3.6.0
+matplotlib==3.10.3
+numpy==2.1.2
+pandas==2.3.0
+pyfaidx==0.8.1.4
+scikit-learn==1.7.0
+swanlab==0.6.6
+tokenizers==0.21.2
+tqdm==4.67.1
+transformers==4.53.2
