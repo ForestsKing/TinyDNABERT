@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--init_path", type=str, default="./Result/TinyDNABERT-20M-V1-Init/")
     parser.add_argument("--final_path", type=str, default="./Result/TinyDNABERT-20M-V1-Final/")
-    parser.add_argument("--data_path", type=str, default="InstaDeepAl/nucleotide_transformer_downstream_tasks_revised")
+    parser.add_argument("--data_path", type=str, default="InstaDeepAI/nucleotide_transformer_downstream_tasks_revised")
 
     parser.add_argument("--max_step", type=int, default=5_000)
     parser.add_argument("--save_step", type=int, default=200)
