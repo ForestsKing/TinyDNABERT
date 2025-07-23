@@ -3,6 +3,7 @@ import os
 from itertools import chain
 
 import swanlab
+from accelerate.test_utils.testing import get_backend
 from datasets import load_dataset
 from swanlab.integration.transformers import SwanLabCallback
 from swanlab.plugin.notification import LarkCallback
@@ -61,6 +62,7 @@ if __name__ == "__main__":
     tokenizer = RobertaTokenizer.from_pretrained(args.final_path)
 
     # init Roberta model
+    device, _, _ = get_backend()
     config = RobertaConfig(
         vocab_size=tokenizer.vocab_size,
         max_position_embeddings=args.max_len + 2,
@@ -69,7 +71,7 @@ if __name__ == "__main__":
         num_attention_heads=8,
         intermediate_size=2048,
     )
-    model = RobertaForMaskedLM(config=config)
+    model = RobertaForMaskedLM(config=config).to(device)
     model.save_pretrained(args.init_path)
     print(f"\nParameters: {model.num_parameters():,}")
 

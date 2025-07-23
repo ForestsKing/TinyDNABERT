@@ -4,6 +4,7 @@ import os
 import numpy as np
 import pandas as pd
 import swanlab
+from accelerate.test_utils.testing import get_backend
 from datasets import load_dataset, Dataset
 from sklearn.metrics import matthews_corrcoef
 from sklearn.model_selection import train_test_split
@@ -70,14 +71,15 @@ if __name__ == "__main__":
         label_num = df["LabelNum"].values[i]
 
         # load model
+        device, _, _ = get_backend()
         if args.flag == "init":
             tokenizer = AutoTokenizer.from_pretrained(args.init_path)
             model = AutoModelForSequenceClassification.from_pretrained(
-                args.init_path, num_labels=label_num, device_map="auto")
+                args.init_path, num_labels=label_num).to(device)
         elif args.flag == "final":
             tokenizer = AutoTokenizer.from_pretrained(args.final_path)
             model = AutoModelForSequenceClassification.from_pretrained(
-                args.final_path, num_labels=label_num, device_map="auto")
+                args.final_path, num_labels=label_num).to(device)
         else:
             raise ValueError("Invalid flag. Choose either 'init' or 'final'.")
 
@@ -129,7 +131,7 @@ if __name__ == "__main__":
         # evaluate
         score = trainer.predict(tokenized_test_dataset).metrics["test_mcc_score"]
         score_list.append(score)
-        print(f"Task {i + 1:02d} {task_name} || MCC Score: {score:.4f}")
+        print(f"\nTask {i + 1:02d} {task_name} || MCC Score: {score:.4f}\n")
 
     res = df[["Task"]].copy()
     res["MCC"] = score_list
