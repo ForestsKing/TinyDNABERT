@@ -12,6 +12,7 @@ from transformers import RobertaTokenizer, RobertaConfig, RobertaForMaskedLM
 
 os.environ["NCCL_P2P_DISABLE"] = "1"
 os.environ["NCCL_IB_DISABLE"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 lark_callback = LarkCallback(
     webhook_url="https://open.feishu.cn/open-apis/bot/v2/hook/xxxx",
